@@ -1,0 +1,26 @@
+ **/target
+**/node_modules
+**/dist
+**/logs
+*.log
+**/coverage
+*.zip
+**/reports
+
+### IntelliJ ###
+**/.idea
+*.iml
+
+### Terraform ###
+**/.terraform
+*.tfstate.backup
+*.tfstate
+**tfstate.**.backup
+**/*.tfplan
+*.plan
+
+### Temp file ###
+no_bg
+
+### Mac OS ###
+.DS_Store
