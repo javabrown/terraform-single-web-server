@@ -15,7 +15,7 @@
  
 
  ### Please not that nothing in Free in AWS, so you might get billed. So run this script with your own risk :) , 
- ### Comment or EMail if you have any question: raja khan <getrk@yahoo.com>
+ ### Comment or EMail if you have any question: <raja khan> <getrk@yahoo.com>
 
  
  
