@@ -15,7 +15,7 @@ provider "aws" {
 # DEPLOY A SINGLE EC2 INSTANCE
 # ---------------------------------------------------------------------------------------------------------------------
 
-resource "aws_instance" "example" {
+resource "aws_instance" "rk-tf-hello-instance" {
   # Ubuntu Server 14.04 LTS (HVM), SSD Volume Type in us-east-1
   ami = "ami-2d39803a"
   instance_type = "t2.micro"
@@ -31,16 +31,30 @@ resource "aws_instance" "example" {
               EOF
 
   tags {
-    Name = "terraform-example"
+    Name = "terraform-rk-tf-hello-instance"
   }
 }
+
+
+# ---------------------------------------------------------------------------------------------------------------------
+# ELASTIC IP ASSOCIATION
+# ---------------------------------------------------------------------------------------------------------------------
+resource "aws_eip_association" "eip_assoc" {
+  instance_id   = "${aws_instance.rk-tf-hello-instance.id}"
+  allocation_id = "${aws_eip.rk-tf-hello-eip.id}"
+}
+
+resource "aws_eip" "rk-tf-hello-eip" {
+  vpc = true
+}
+
 
 # ---------------------------------------------------------------------------------------------------------------------
 # CREATE THE SECURITY GROUP THAT'S APPLIED TO THE EC2 INSTANCE
 # ---------------------------------------------------------------------------------------------------------------------
 
 resource "aws_security_group" "instance" {
-  name = "terraform-example-instance"
+  name = "terraform-rk-tf-hello-instance"
 
   # Inbound HTTP from anywhere
   ingress {
