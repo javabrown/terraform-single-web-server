@@ -11,6 +11,9 @@
 **/.idea
 *.iml
 
+*.bat
+*.sh
+
 ### Terraform ###
 **/.terraform
 *.tfstate.backup
