@@ -34,6 +34,7 @@ resource "aws_instance" "rk-tf-hello-instance" {
               sudo yum update -y
               sudo yum install docker -y
               sudo service docker start
+              sudo usermod -a -G docker ec2-user
 
               #Install GIT
               sudo yum -y install git
