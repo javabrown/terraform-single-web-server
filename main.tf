@@ -39,6 +39,13 @@ resource "aws_instance" "rk-tf-hello-instance" {
               #Install GIT
               sudo yum -y install git
 
+              #Install HTTPD
+              sudo yum clean all
+              sudo yum -y update
+              sudo yum -y install httpd
+              sudo chkconfig httpd on
+              sudo /etc/init.d/httpd start
+
               echo "Hello, World" > index.html
               nohup busybox httpd -f -p "${var.server_port}" &
               EOF
