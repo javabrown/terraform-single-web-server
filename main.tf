@@ -17,15 +17,27 @@ provider "aws" {
 
 resource "aws_instance" "rk-tf-hello-instance" {
   # Ubuntu Server 14.04 LTS (HVM), SSD Volume Type in us-east-1
-  ami = "ami-2d39803a"
+  #ami = "ami-2d39803a"
+  
+  # Amazon Linux AMI 2018.03.0 (HVM), SSD Volume Type - ami-0756fbca465a59a30 in us-east-1
+  ami = "ami-0756fbca465a59a30"  
+  
   instance_type = "t2.micro"
   key_name = "rk-ec2-keypair-1"
   vpc_security_group_ids = ["${aws_security_group.instance.id}"]
 
   user_data = <<-EOF
               #!/bin/bash
-              sudo apt-get update
-              sudo apt-get -y install docker.io
+              sudo yum update -y
+
+              #Install Docker
+              sudo yum update -y
+              sudo yum install docker -y
+              sudo service docker start
+
+              #Install GIT
+              sudo yum -y install git
+
               echo "Hello, World" > index.html
               nohup busybox httpd -f -p "${var.server_port}" &
               EOF
