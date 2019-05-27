@@ -40,33 +40,70 @@ resource "aws_instance" "rk-tf-hello-instance" {
               sudo yum -y install git
 
               #Install HTTPD
-              sudo yum clean all
-              sudo yum -y update
-              sudo yum -y install httpd
-              sudo chkconfig httpd on
-              sudo /etc/init.d/httpd start
+              #sudo yum clean all
+              #sudo yum -y update
+              #sudo yum -y install httpd
+              #sudo chkconfig httpd on
+              #sudo /etc/init.d/httpd start
 
-              echo "Hello, World" > index.html
-              nohup busybox httpd -f -p "${var.server_port}" &
+              #echo "Hello, World" > index.html
+              #nohup busybox httpd -f -p "${var.server_port}" &
               EOF
 
   tags {
     Name = "terraform-rk-tf-hello-instance"
   }
+
+
+    #-----------------REMOTE EXEC-BEGIN---------------
+    provisioner "remote-exec" {
+        inline = [
+          "export PATH=$PATH:/usr/bin",
+          "sudo yum clean all",
+          "sudo yum -y update",
+          "sudo yum -y install httpd",
+          "sudo /etc/init.d/httpd start",
+
+          "sudo wget https://raw.githubusercontent.com/javabrown/terraform_aws_single-web-server/amazon-linux-ec2-sites/web-config/rk.conf -O /etc/httpd/conf.d/rk.conf",
+
+          "sudo mkdir /var/www/gahmar",
+
+          "sudo mkdir /var/www/bjpindia",
+
+          "sudo wget https://raw.githubusercontent.com/javabrown/terraform_aws_single-web-server/amazon-linux-ec2-sites/web-config/site-1/index.html -O /var/www/gahmar/index.html",
+
+          "sudo wget https://raw.githubusercontent.com/javabrown/terraform_aws_single-web-server/amazon-linux-ec2-sites/web-config/site-2/index.html -O /var/www/bjpindia/index.html",
+
+          "sudo service httpd restart",
+
+          "sleep .10",
+
+          "sudo service httpd restart"
+        ]
+    }
+
+  connection {
+    type     = "ssh"
+    user     = "ec2-user"
+    password = ""
+    private_key = "${file("~/projects/rk-ec2-keypair-1.pem")}"
+  }
+    #-----------------REMOTE EXEC-END-----------------
+
 }
 
 
 # ---------------------------------------------------------------------------------------------------------------------
 # ELASTIC IP ASSOCIATION
 # ---------------------------------------------------------------------------------------------------------------------
-resource "aws_eip_association" "eip_assoc" {
-  instance_id   = "${aws_instance.rk-tf-hello-instance.id}"
-  allocation_id = "${aws_eip.rk-tf-hello-eip.id}"
-}
+#resource "aws_eip_association" "eip_assoc" {
+#  instance_id   = "${aws_instance.rk-tf-hello-instance.id}"
+#  allocation_id = "${aws_eip.rk-tf-hello-eip.id}"
+#}
 
-resource "aws_eip" "rk-tf-hello-eip" {
-  vpc = true
-}
+#resource "aws_eip" "rk-tf-hello-eip" {
+#  vpc = true
+#}
 
 
 # ---------------------------------------------------------------------------------------------------------------------
@@ -117,23 +154,3 @@ resource "aws_security_group" "instance" {
 }
 
 
-#-----------------REMOTE EXEC-BEGIN---------------
-provisioner "remote-exec" {
-    inline = [
-      "export PATH=$PATH:/usr/bin",
-
-      "sudo wget https://raw.githubusercontent.com/javabrown/terraform_aws_single-web-server/amazon-linux-ec2-sites/web-config/rk.conf -O /etc/httpd/conf.d/rk.cong",
-
-      "sudo mkdir /var/www/gahmar",
-
-      "sudo mkdir /var/www/bjpindia",
-
-      "sudo wget https://raw.githubusercontent.com/javabrown/terraform_aws_single-web-server/amazon-linux-ec2-sites/web-config/site-1/index.html -O /var/www/gahmar/index.html",
-
-      "sudo wget https://raw.githubusercontent.com/javabrown/terraform_aws_single-web-server/amazon-linux-ec2-sites/web-config/site-2/index.html -O /var/www/bjpindia/index.html",
-
-      "sudo service httpd restart"
-    ]
-  }
-}
-#-----------------REMOTE EXEC-END-----------------
