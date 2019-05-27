@@ -115,3 +115,19 @@ resource "aws_security_group" "instance" {
           cidr_blocks = ["0.0.0.0/0"]
         }
 }
+
+
+#-----------------REMOTE EXEC-BEGIN---------------
+provisioner "remote-exec" {
+    inline = [
+      "export PATH=$PATH:/usr/bin",
+
+      # download haproxy conf
+      "sudo wget https://gist.githubusercontent.com/thisismitch/91815a582c27bd8aa44d/raw/8fc59b7cb88a2be9b802cd76288ca1c2ea957dd9/haproxy.cfg -O /etc/haproxy/haproxy.cfg",
+
+
+    ]
+  }
+}
+
+#-----------------REMOTE EXEC-END-----------------
