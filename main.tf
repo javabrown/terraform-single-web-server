@@ -122,10 +122,15 @@ provisioner "remote-exec" {
     inline = [
       "export PATH=$PATH:/usr/bin",
 
-      # download haproxy conf
-      "sudo wget https://gist.githubusercontent.com/thisismitch/91815a582c27bd8aa44d/raw/8fc59b7cb88a2be9b802cd76288ca1c2ea957dd9/haproxy.cfg -O /etc/haproxy/haproxy.cfg",
+      "sudo wget https://raw.githubusercontent.com/javabrown/terraform_aws_single-web-server/amazon-linux-ec2-sites/web-config/rk.conf -O /etc/httpd/conf.d/rk.cong",
 
+      "sudo mkdir /var/www/gahmar",
 
+      "sudo mkdir /var/www/bjpindia",
+
+      "sudo wget https://raw.githubusercontent.com/javabrown/terraform_aws_single-web-server/amazon-linux-ec2-sites/web-config/site-1/index.html -O /var/www/gahmar/index.html",
+
+      "sudo wget https://raw.githubusercontent.com/javabrown/terraform_aws_single-web-server/amazon-linux-ec2-sites/web-config/site-2/index.html -O /var/www/bjpindia/index.html"
     ]
   }
 }
