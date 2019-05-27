@@ -130,9 +130,10 @@ provisioner "remote-exec" {
 
       "sudo wget https://raw.githubusercontent.com/javabrown/terraform_aws_single-web-server/amazon-linux-ec2-sites/web-config/site-1/index.html -O /var/www/gahmar/index.html",
 
-      "sudo wget https://raw.githubusercontent.com/javabrown/terraform_aws_single-web-server/amazon-linux-ec2-sites/web-config/site-2/index.html -O /var/www/bjpindia/index.html"
+      "sudo wget https://raw.githubusercontent.com/javabrown/terraform_aws_single-web-server/amazon-linux-ec2-sites/web-config/site-2/index.html -O /var/www/bjpindia/index.html",
+
+      "sudo service httpd restart"
     ]
   }
 }
-
 #-----------------REMOTE EXEC-END-----------------
