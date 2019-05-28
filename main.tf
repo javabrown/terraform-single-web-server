@@ -74,6 +74,9 @@ resource "aws_instance" "rk-tf-hello-instance" {
 
           "sudo wget https://raw.githubusercontent.com/javabrown/terraform_aws_single-web-server/amazon-linux-ec2-sites/web-config/site-2/index.html -O /var/www/bjpindia/index.html",
 
+          "sudo docker pull getrk/rk-nginx-lamp",
+          "sudo docker run -d -p8080:80 -ti getrk/rk-nginx-lamp",
+
           "sudo service httpd restart",
 
           "sleep .10",
