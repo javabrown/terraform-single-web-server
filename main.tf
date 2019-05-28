@@ -61,7 +61,7 @@ resource "aws_instance" "rk-tf-hello-instance" {
           "export PATH=$PATH:/usr/bin",
           "sudo yum clean all",
           "sudo yum -y update",
-          "sudo yum -y install httpd",
+          "sudo yum -y install httpd24",
           "sudo /etc/init.d/httpd start",
 
           "sudo wget https://raw.githubusercontent.com/javabrown/terraform_aws_single-web-server/amazon-linux-ec2-sites/web-config/rk.conf -O /etc/httpd/conf.d/rk.conf",
