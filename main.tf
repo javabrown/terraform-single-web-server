@@ -36,6 +36,13 @@ resource "aws_instance" "rk-tf-hello-instance" {
               sudo service docker start
               sudo usermod -a -G docker ec2-user
 
+              ##Install NODE & NPM (remove if any existing)
+              sudo yum remove -y nodejs npm
+              #Install latest version - change setup url based on version i.e. setup_12.x or setup_13.x and so on 
+              curl -sL https://rpm.nodesource.com/setup_12.x | sudo -E bash -
+              sudo yum -y install nodejs
+              sudo npm install npm@latest -g
+
               #Install GIT
               sudo yum -y install git
 
